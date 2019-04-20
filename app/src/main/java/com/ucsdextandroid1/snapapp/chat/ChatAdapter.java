@@ -13,6 +13,7 @@ import java.util.List;
 public class ChatAdapter extends RecyclerView.Adapter {
 
     private List<Chat> items = new ArrayList<>();
+    private ChatItemViewHolder.ChatClickListener listener;
 
     public void setItems(List<Chat> chats) {
         this.items.clear();
@@ -24,6 +25,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ChatItemViewHolder viewHolder = ChatItemViewHolder.inflate(parent);
+        viewHolder.setOnChatItemCallback(listener);
         return viewHolder;
     }
 
@@ -39,4 +41,7 @@ public class ChatAdapter extends RecyclerView.Adapter {
         return this.items.size();
     }
 
+    public void setOnItemClickCallback(ChatItemViewHolder.ChatClickListener Listener) {
+        this.listener = Listener;
+    }
 }
