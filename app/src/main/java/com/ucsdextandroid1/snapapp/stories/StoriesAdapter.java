@@ -23,12 +23,13 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         items.clear();
 
         //TODO add title item, using context.getString(R.string.stories)) to get the title
-        items.add(new StoriesListItem(context.getString(R.string.stories)));
+        //items.add(new StoriesListItem(context.getString(R.string.stories)));
 
         //TODO add all of the story items to the list
-        for (Story story:stories){
+        for (Story story : stories){
             items.add(new StoriesListItem(story));
         }
+
         //TODO let the adapter know that  the data has changed
         notifyDataSetChanged();
     }
@@ -37,17 +38,21 @@ public class StoriesAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         //TODO return the correct view holder for each viewType
-
         switch(viewType){
             case StoriesListItem.TYPE_TITLE:
+
                 return StoriesSectionTitleViewHolder.inflate(parent);
 
             case StoriesListItem.TYPE_CARD:
-                return StoryCardViewHolder.inflate(parent);
+                StoryCardViewHolder viewHolder = StoryCardViewHolder.inflate(parent);
+                //Very important
+                viewHolder.setOnStoryCallback(listener);
+                return viewHolder;
 
             default:
                 throw new IllegalArgumentException("Unexpected View type");
         }
+
 
     }
 
@@ -70,15 +75,25 @@ public class StoriesAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         //TODO return the correct view type
-        return 0;
+        return items.get(position).getType();
     }
 
     //TODO add a method that returns the correct span for each item type.
-    public void setOnItemClickCallback(StoryCardViewHolder.StoryCardClickListener listener){
-        this.listener = listener;
+    public int getSpanSize(int position){
+        switch (getItemViewType(position)){
+            case StoriesListItem.TYPE_CARD:
+                return 2;
+            case StoriesListItem.TYPE_TITLE:
+                return 1;
+            default:
+                return 1;
+        }
     }
 
     //TODO add a custom interface called Callback that extends the click listener defined on the StoriesCardViewHolder
+    public void setOnItemClickCallback(StoryCardViewHolder.StoryCardClickListener listener){
+        this.listener = listener;
+    }
 
     private class StoriesListItem {
 
@@ -96,7 +111,7 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         }
 
         public StoriesListItem(Story story){
-            this.title = null;
+            //this.title = null;
             this.story = story;
             this.type = TYPE_CARD;
         }
@@ -108,6 +123,8 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         public Story getStory(){
             return story;
         }
+
+        public int getType(){ return type;}
 
 
 

@@ -1,5 +1,6 @@
 package com.ucsdextandroid1.snapapp.stories;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,7 @@ public class StoryCardViewHolder extends RecyclerView.ViewHolder {
     private TextView subtitleView;
 
     private Story currentStory;
-    private StoryCardClickListener storyCardClickListenerlistener;
+    private StoryCardClickListener storyCardClickListener;
 
     //TODO add a static method called inflate() that inflates the layout view_story_card
     public static StoryCardViewHolder inflate(ViewGroup parent){
@@ -39,7 +40,9 @@ public class StoryCardViewHolder extends RecyclerView.ViewHolder {
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storyCardClickListenerlistener.onStoryItemClick(currentStory);
+                Log.d("setOnClickListener", "Click detected: ");
+                Log.d("setOnClickListener", "Current Story Title: " + currentStory.getTitle());
+                storyCardClickListener.onStoryItemClick(currentStory);
             }
         });
     }
@@ -58,7 +61,7 @@ public class StoryCardViewHolder extends RecyclerView.ViewHolder {
 
     //TODO add a method to set a StoryCardClickListener to this class
     public void setOnStoryCallback(StoryCardClickListener listener){
-        storyCardClickListenerlistener = listener;
+        storyCardClickListener = listener;
     }
 
     public interface StoryCardClickListener {

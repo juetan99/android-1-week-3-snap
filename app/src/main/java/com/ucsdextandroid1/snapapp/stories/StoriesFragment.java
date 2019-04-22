@@ -1,6 +1,7 @@
 package com.ucsdextandroid1.snapapp.stories;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ucsdextandroid1.snapapp.DataSources;
 import com.ucsdextandroid1.snapapp.R;
+import com.ucsdextandroid1.snapapp.chat.Chat;
+import com.ucsdextandroid1.snapapp.chat.ChatItemViewHolder;
 import com.ucsdextandroid1.snapapp.util.WindowUtil;
 
 import java.util.List;
@@ -44,18 +47,28 @@ public class StoriesFragment extends Fragment {
         //TODO create a adapter
         StoriesAdapter adapter = new StoriesAdapter();
 
+        //TODO create a grid layout manager with default span of 2 and the SpanSizeLookup for each type
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
 
-        //TODO create a grid layout manager with default span of 2 and the SpanSizeLookup for each type
-
         //TODO set up the recyclerView with the layoutManager and adapter
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
         //TODO add a callback to the adapter that calls the method onStoryClicked when the user clicks on the list item
+
+        adapter.setOnItemClickCallback(new StoryCardViewHolder.StoryCardClickListener() {
+            @Override
+            public void onStoryItemClick(Story story) {
+                onStoryClicked(story);
+            }
+        });
+
 
         DataSources.getInstance().getStoryCards(new DataSources.Callback<List<Story>>() {
             @Override
             public void onDataFetched(List<Story> data) {
                 //TODO set the data from the DataSource to the adapter
+                adapter.setItems(getContext(), data);
             }
         });
 
@@ -63,7 +76,7 @@ public class StoriesFragment extends Fragment {
     }
 
     private void onStoryClicked(Story story) {
-
+        Toast.makeText(getContext(), story.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
 }
