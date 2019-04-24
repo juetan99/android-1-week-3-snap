@@ -49,6 +49,15 @@ public class StoriesFragment extends Fragment {
 
         //TODO create a grid layout manager with default span of 2 and the SpanSizeLookup for each type
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
+                                            @Override
+                                            public int getSpanSize(int position) {
+                                                Log.d("Span", "position: " + position + " Span: " + adapter.getSpanSize(position));
+                                                return adapter.getSpanSize(position);
+                                            }
+                                        });
+
+
 
         //TODO set up the recyclerView with the layoutManager and adapter
         recyclerView.setLayoutManager(layoutManager);

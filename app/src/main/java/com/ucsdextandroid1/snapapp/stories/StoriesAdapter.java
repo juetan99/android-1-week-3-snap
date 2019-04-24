@@ -23,7 +23,7 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         items.clear();
 
         //TODO add title item, using context.getString(R.string.stories)) to get the title
-        //items.add(new StoriesListItem(context.getString(R.string.stories)));
+        items.add(new StoriesListItem(context.getString(R.string.stories)));
 
         //TODO add all of the story items to the list
         for (Story story : stories){
@@ -82,9 +82,9 @@ public class StoriesAdapter extends RecyclerView.Adapter {
     public int getSpanSize(int position){
         switch (getItemViewType(position)){
             case StoriesListItem.TYPE_CARD:
-                return 2;
-            case StoriesListItem.TYPE_TITLE:
                 return 1;
+            case StoriesListItem.TYPE_TITLE:
+                return 2;
             default:
                 return 1;
         }
@@ -111,7 +111,7 @@ public class StoriesAdapter extends RecyclerView.Adapter {
         }
 
         public StoriesListItem(Story story){
-            //this.title = null;
+            this.title = null;
             this.story = story;
             this.type = TYPE_CARD;
         }
